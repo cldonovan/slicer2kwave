@@ -15,5 +15,5 @@ function phases = computePhasesGeometric(frequency,speed_of_sound,element_locati
     distToTarget = sqrt( (element_locations(:,1)-steer_coord(1)).^2 + (element_locations(:,2)-steer_coord(2)).^2 + (element_locations(:,3)-steer_coord(3)).^2 ); % m   
     timeToTarget = distToTarget / speed_of_sound ; 
     inverseTime = max(timeToTarget) - timeToTarget; 
-    phases = mod(inverseTime * 2 * pi * frequency, 2 * pi);
+    phases = mod(inverseTime * 2 * pi * frequency, 2 * pi) - pi/2;
 end
