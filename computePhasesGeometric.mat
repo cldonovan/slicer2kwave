@@ -1,0 +1,19 @@
+% Computes phases geomtrically to match IGT phases with k-Wave phases
+
+% Inputs: 
+%   frequency -- the frequency of the waveform in hZ
+%   speed_of_sound -- the scalar speed of sound in the medium in m/s
+%   element_locations -- Nx3 matrix with  positions of the elements relative to the origin, in mm
+%   steer_coord -- the location of the desired focus in US space in mm
+
+% Outputs:
+%   phases -- an Nx1 vector of the phases in radians
+
+function phases = computePhasesGeometric(frequency,speed_of_sound,element_locations,steer_coord)
+    element_locations = element_locations * 1e-3; % convert to meters
+    steer_coord = steer_coord * 1e-3; % convert to meters 
+    distToTarget = sqrt( (element_locations(:,1)-steer_coord(1)).^2 + (element_locations(:,2)-steer_coord(2)).^2 + (element_locations(:,3)-steer_coord(3)).^2 ); % m   
+    timeToTarget = distToTarget / speed_of_sound ; 
+    inverseTime = max(timeToTarget) - timeToTarget; 
+    phases = mod(inverseTime * 2 * pi * frequency, 2 * pi);
+end
